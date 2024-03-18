@@ -6,6 +6,7 @@
 #include <variant>
 #include <iostream>
 
+#include "sequence.h"
 using image_data = std::variant<std::vector<std::uint16_t>, std::vector<std::int16_t>>;
 
 
@@ -23,7 +24,7 @@ public:
     std::int64_t GetChannelCount () const;
     std::int64_t GetTstepCount () const;
     std::int64_t GetDataType() const;
-    std::shared_ptr<image_data> GetImageData();
+    std::shared_ptr<image_data> GetImageData(const Seq& rows, const Seq& cols, const Seq& layers = Seq(0,0), const Seq& channels = Seq(0,0), const Seq& tsteps = Seq(0,0));
 
 
 private:
@@ -66,7 +67,7 @@ std::int64_t OmeTiffReader::GetChannelCount() const {return _num_channels;}
 std::int64_t OmeTiffReader::GetTstepCount() const {return _num_tsteps;} 
 std::int64_t OmeTiffReader::GetDataType() const {return _data_type;} 
 
-std::shared_ptr<image_data> OmeTiffReader::GetImageData() {
+std::shared_ptr<image_data> OmeTiffReader::GetImageData(const Seq& rows, const Seq& cols, const Seq& layers = Seq(0,0), const Seq& channels = Seq(0,0), const Seq& tsteps = Seq(0,0)) {
     if (_data_type == 1){
 
         auto data = std::make_shared<std::vector<std::uint16_t>>(_image_height*_image_width); 

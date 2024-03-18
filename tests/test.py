@@ -1,6 +1,6 @@
 from bfiocpp import BioReader
 
-br = BioReader("testsd")
+br = BioReader("test")
 tmp = br.data()
 print(tmp)
 print(tmp.shape)

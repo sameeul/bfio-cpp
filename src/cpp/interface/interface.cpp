@@ -47,5 +47,20 @@ py::array get_image_data(bfiocpp::OmeTiffReader& tl) {
 
 
 PYBIND11_MODULE(libbfiocpp, m) {
-    makeBinding(bfiocpp::OmeTiffReader, "OmeTiffReader");
+  py::class_<bfiocpp::OmeTiffReader, std::shared_ptr<bfiocpp::OmeTiffReader>>(m, "OmeTiffReader") 
+    .def(py::init<const std::string &>()) 
+    .def("get_image_height", &bfiocpp::OmeTiffReader::GetImageHeight) 
+    .def("get_image_width", &bfiocpp::OmeTiffReader::GetImageWidth) 
+    .def("get_image_depth", &bfiocpp::OmeTiffReader::GetImageDepth) 
+    .def("get_tile_height", &bfiocpp::OmeTiffReader::GetTileHeight) 
+    .def("get_tile_width", &bfiocpp::OmeTiffReader::GetTileWidth) 
+    .def("get_tile_depth", &bfiocpp::OmeTiffReader::GetTileDepth) 
+    .def("get_channel_count", &bfiocpp::OmeTiffReader::GetChannelCount) 
+    .def("get_tstep_count", &bfiocpp::OmeTiffReader::GetTstepCount) 
+    .def("get_image_data",  
+        [](bfiocpp::OmeTiffReader& tl) { 
+            if (tl.GetDataType() == 1) 
+            {return get_image_data(tl);}
+            else {return get_image_data(tl);}
+        }, py::return_value_policy::reference); 
 }

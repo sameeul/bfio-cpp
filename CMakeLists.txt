@@ -19,30 +19,30 @@ if(NOT CMAKE_BUILD_TYPE)
   
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 set(SOURCE 
-          #  src/cpp/ts_driver/tiled_tiff/omexml.cc
-          #  src/cpp/ts_driver/tiled_tiff/tiled_tiff_key_value_store.cc
-          #  src/cpp/ts_driver/ometiff/metadata.cc
-          #  src/cpp/ts_driver/ometiff/driver.cc
+          src/cpp/ts_driver/tiled_tiff/omexml.cc
+          src/cpp/ts_driver/tiled_tiff/tiled_tiff_key_value_store.cc
+          src/cpp/ts_driver/ometiff/metadata.cc
+          src/cpp/ts_driver/ometiff/driver.cc
           src/cpp/interface/interface.cpp
 
 )
 
-# include(FetchContent)
+include(FetchContent)
 
-# FetchContent_Declare(
-#   tensorstore
-#   URL "https://github.com/google/tensorstore/archive/refs/tags/v0.1.36.tar.gz"
-#   URL_HASH SHA256=5857582b1b68e5a3f470d2ee8e9a7fa1ad6e6c7e0867c7c69e5a523ae00bc002
-# )
+FetchContent_Declare(
+  tensorstore
+  URL "https://github.com/google/tensorstore/archive/refs/tags/v0.1.36.tar.gz"
+  URL_HASH SHA256=5857582b1b68e5a3f470d2ee8e9a7fa1ad6e6c7e0867c7c69e5a523ae00bc002
+)
 
 # Additional FetchContent_Declare calls as needed...
 
-# FetchContent_MakeAvailable(tensorstore)
+FetchContent_MakeAvailable(tensorstore)
 
 # Define a target that depends on TensorStore...
 
 include_directories(lib/pugixml)
-include_directories(lib/plog/include)
+#include_directories(lib/plog/include)
 include_directories(lib/bs_threadpool)
 
 
@@ -61,7 +61,6 @@ find_package(pybind11 CONFIG REQUIRED)
 
 pybind11_add_module(libbfiocpp 
   ${SOURCE}
-  # src/python/bfio_python_interface.cpp
 )
 
 # VERSION_INFO is defined by setup.py and passed into the C++ code as a define (VERSION_INFO) here.
@@ -72,5 +71,5 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_link_libraries(libbfiocpp PRIVATE stdc++fs)
 endif()
 
-# target_link_libraries(libbfiocpp PRIVATE tensorstore::tensorstore tensorstore::all_drivers filepattern::filepattern)
+target_link_libraries(libbfiocpp PRIVATE tensorstore::tensorstore tensorstore::all_drivers)
 target_link_libraries(libbfiocpp PRIVATE ${Build_LIBRARIES})  
