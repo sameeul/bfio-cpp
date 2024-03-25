@@ -1,8 +1,8 @@
-from .libbfiocpp import OmeTiffReader
+from .libbfiocpp import OmeTiffReader, Seq
 
 
 
-class BioReader:
+class TSTiffReader:
 
     READ_ONLY_MESSAGE = "{} is read-only."
     
@@ -11,7 +11,6 @@ class BioReader:
     def __init__(self, file_name):
 
         self._image_reader = OmeTiffReader(file_name)
-        
         self._Y = self._image_reader.get_image_height()
         self._X = self._image_reader.get_image_width()
         self._Z = self._image_reader.get_image_depth()
@@ -21,5 +20,5 @@ class BioReader:
 
         
     
-    def data(self):
-        return self._image_reader.get_image_data()
+    def data(self, rows, cols, layers, channels, tsteps):
+        return self._image_reader.get_image_data(rows, cols, layers, channels, tsteps)
