@@ -42,6 +42,7 @@ py::array get_image_data(bfiocpp::OmeTiffReader& tl, const Seq& rows, const Seq&
 }
 
 
+
 PYBIND11_MODULE(libbfiocpp, m) {
     py::class_<Seq, std::shared_ptr<Seq>>(m, "Seq")  
         .def(py::init<const size_t, const size_t, const size_t>());
@@ -56,6 +57,7 @@ PYBIND11_MODULE(libbfiocpp, m) {
     .def("get_tile_depth", &bfiocpp::OmeTiffReader::GetTileDepth) 
     .def("get_channel_count", &bfiocpp::OmeTiffReader::GetChannelCount) 
     .def("get_tstep_count", &bfiocpp::OmeTiffReader::GetTstepCount) 
+    .def("get_ome_xml_metadata", &bfiocpp::OmeTiffReader::GetOmeXml)
     .def("get_image_data",  
         [](bfiocpp::OmeTiffReader& tl, const Seq& rows, const Seq& cols, const Seq& layers, const Seq& channels, const Seq& tsteps) { 
             return get_image_data(tl, rows, cols, layers, channels, tsteps);

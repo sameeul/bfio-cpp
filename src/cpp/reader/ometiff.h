@@ -34,7 +34,7 @@ public:
     std::int64_t GetTstepCount () const;
     std::string GetDataType() const;
     std::shared_ptr<image_data> GetImageData(const Seq& rows, const Seq& cols, const Seq& layers, const Seq& channels, const Seq& tsteps);
-
+    std::string GetOmeXml() const;
 
 private:
     std::string _filename, _data_type;

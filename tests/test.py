@@ -13,11 +13,11 @@ print(tmp.shape)
 print(type(tmp))
 print(tmp.dtype)
 
-from bfio import BioReader as BioReader
-br = BioReader("/home/samee/axle_dev/bfio-cpp/tests/p01_x01_y01_wx0_wy0_c1.ome.tif")
-tmp2 = br[:]
-tmp = tmp2[0:1024, 0:1024]
-print(tmp.sum())
-print(tmp.shape)
-print(type(tmp))
-print(tmp.dtype)
+# from bfio import BioReader as BioReader
+# br = BioReader("/home/samee/axle_dev/bfio-cpp/tests/p01_x01_y01_wx0_wy0_c1.ome.tif")
+# tmp2 = br[:]
+# tmp = tmp2[0:1024, 0:1024]
+# print(tmp.sum())
+# print(tmp.shape)
+# print(type(tmp))
+# print(tmp.dtype)

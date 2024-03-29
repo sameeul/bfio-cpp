@@ -8,8 +8,8 @@
 #include "ometiff.h"
 #include "utilities.h"
 #include "type_info.h"
+#include <tiffio.h>
 
-#include <iostream>
 
 using ::tensorstore::internal_zarr::ChooseBaseDType;
 
@@ -107,5 +107,19 @@ std::shared_ptr<image_data> OmeTiffReader::GetImageData(const Seq& rows, const S
         break;
     }
 } 
+
+std::string OmeTiffReader::GetOmeXml() const{
+    TIFF *tiff_file = TIFFOpen(_filename.c_str(), "r");
+    std::string OmeXmlInfo{""};
+    if (tiff_file != nullptr) {
+        char* infobuf;        
+        TIFFGetField(tiff_file, TIFFTAG_IMAGEDESCRIPTION , &infobuf);
+        if (strlen(infobuf)>0){
+            OmeXmlInfo = std::string(infobuf);
+        }
+    }
+    TIFFClose(tiff_file);
+    return OmeXmlInfo;
+}
   
 }

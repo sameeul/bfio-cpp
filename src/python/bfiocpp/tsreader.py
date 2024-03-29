@@ -22,3 +22,6 @@ class TSTiffReader:
     
     def data(self, rows, cols, layers, channels, tsteps):
         return self._image_reader.get_image_data(rows, cols, layers, channels, tsteps)
+    
+    def ome_metadata(self):
+        return self._image_reader.get_ome_xml_metadata()
