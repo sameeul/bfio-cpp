@@ -5,6 +5,8 @@
 #include <vector>
 #include <variant>
 #include <iostream>
+#include <tuple>
+#include <unordered_map>
 #include "tensorstore/tensorstore.h"
 #include "sequence.h"
 using image_data = std::variant<std::vector<std::uint8_t>,
@@ -19,7 +21,10 @@ using image_data = std::variant<std::vector<std::uint8_t>,
                                 std::vector<double>>;
 
 
+using iter_indicies = std::tuple<std::int64_t,std::int64_t,std::int64_t,std::int64_t,std::int64_t,std::int64_t,std::int64_t>;
+
 namespace bfiocpp{
+
 
 class OmeTiffReader{
 public:
@@ -35,6 +40,9 @@ public:
     std::string GetDataType() const;
     std::shared_ptr<image_data> GetImageData(const Seq& rows, const Seq& cols, const Seq& layers, const Seq& channels, const Seq& tsteps);
     std::string GetOmeXml() const;
+    void SetIterReadRequests(std::int64_t const tile_width, std::int64_t const tile_height, std::int64_t const row_stride, std::int64_t const col_stride);
+    //tuple of (T,C,Z,Y_min, Y_max, X_min, X_max)
+    std::vector<iter_indicies> iter_request_list;
 
 private:
     std::string _filename, _data_type;
@@ -49,9 +57,9 @@ private:
     std::uint16_t _data_type_code;
     tensorstore::TensorStore<void, -1, tensorstore::ReadWriteMode::dynamic> source;
 
+
     template <typename T>
-    std::shared_ptr<std::vector<T>> GetImageDataTemplated(const Seq& rows, const Seq& cols, const Seq& layers, const Seq& channels, const Seq& tsteps);
-                     
+    std::shared_ptr<std::vector<T>> GetImageDataTemplated(const Seq& rows, const Seq& cols, const Seq& layers, const Seq& channels, const Seq& tsteps);                 
 };
 }
 
