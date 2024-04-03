@@ -12,7 +12,7 @@ using bfiocpp::Seq;
         auto size = std::get<N>(*seq_ptr).size(); \
         auto data = std::get<N>(*seq_ptr).data(); \
         auto capsule = py::capsule(new auto (seq_ptr), [](void *p) {delete reinterpret_cast<decltype(seq_ptr)*>(p);}); \
-        return py::array(size, data, capsule).reshape({num_tsteps, num_channels, num_layers, num_rows, num_cols}).squeeze(); \
+        return py::array(size, data, capsule).reshape({num_tsteps, num_channels, num_layers, num_rows, num_cols}); \
         break; \
     }
 
