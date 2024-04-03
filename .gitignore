@@ -1,0 +1,12 @@
+__pycache__
+.vscode
+venv
+docs/build
+dist
+build
+bfio.egg-info
+examples/data
+.pytest_cache
+bfio/VERSION
+tests/data
+tmp/*

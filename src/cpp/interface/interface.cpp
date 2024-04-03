@@ -81,7 +81,7 @@ PYBIND11_MODULE(libbfiocpp, m) {
     .def("get_tstep_count", &bfiocpp::OmeTiffReader::GetTstepCount) 
     .def("get_ome_xml_metadata", &bfiocpp::OmeTiffReader::GetOmeXml)
     .def("get_tile_coordinate",
-        [](std::int64_t y_start, std::int64_t x_start, std::int64_t row_stride, std::int64_t col_stride) { 
+        [](bfiocpp::OmeTiffReader& tl, std::int64_t y_start, std::int64_t x_start, std::int64_t row_stride, std::int64_t col_stride) { 
             auto row_index = static_cast<std::int64_t>(y_start/row_stride);
             auto col_index = static_cast<std::int64_t>(x_start/col_stride);
             return std::make_tuple(row_index, col_index);

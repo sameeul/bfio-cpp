@@ -125,19 +125,18 @@ std::string OmeTiffReader::GetOmeXml() const{
 void OmeTiffReader::SetIterReadRequests(std::int64_t const tile_width, std::int64_t const tile_height, std::int64_t const row_stride, std::int64_t const col_stride){
     iter_request_list.clear();
     for(std::int64_t t=0; t<_num_tsteps;++t){
-        for(std::int64_t c=0; t<_num_channels;++c){
-            for(std::int64_t z=0; t<_image_depth;++z){
+        for(std::int64_t c=0; c<_num_channels;++c){
+            for(std::int64_t z=0; z<_image_depth;++z){
                 for(std::int64_t y=0; y<=_image_height;y+=row_stride)
                 {
                     auto y_min = y;
                     auto y_max = y_min + row_stride - 1;
-                    y_max = y_max < _image_height ? y_max : _image_height;
+                    y_max = y_max < _image_height ? y_max : _image_height-1;
 
                     for(std::int64_t x=0; x<=_image_width;x+=col_stride){
                         auto x_min = x;
                         auto x_max = x_min + col_stride - 1;
-                        x_max = x_max < _image_width ? x_max : _image_width;
-
+                        x_max = x_max < _image_width ? x_max : _image_width-1;
                         iter_request_list.emplace_back(t,c,z,y_min,y_max,x_min,x_max);
 
                     }
