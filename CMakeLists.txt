@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
 
-
 project(bfio_cpp)
 #==== Compiler Options
 set(CMAKE_CXX_STANDARD 20)
@@ -40,12 +39,8 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(tensorstore)
 
-# Define a target that depends on TensorStore...
 
 include_directories(lib/pugixml)
-#include_directories(lib/plog/include)
-include_directories(lib/bs_threadpool)
-
 
 find_package(Threads QUIET)
 if (Threads_FOUND)

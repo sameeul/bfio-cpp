@@ -3,7 +3,7 @@ __pycache__
 venv
 docs/build
 dist
-build
+build*/
 bfio.egg-info
 examples/data
 .pytest_cache
