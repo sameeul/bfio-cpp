@@ -16,4 +16,4 @@ tensorstore::Spec GetOmeTiffSpecToRead(const std::string& filename);
 
 uint16_t GetDataTypeCode (std::string_view type_name);
 std::string GetUTCString();
-} // ns argolid
+} // ns bfiocpp
