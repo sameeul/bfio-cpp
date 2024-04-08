@@ -4,7 +4,6 @@ import requests, pathlib, shutil, logging, sys
 import bfio
 import numpy as np
 import random
-import zarr
 from ome_zarr.utils import download as zarr_download
 
 TEST_IMAGES = {
