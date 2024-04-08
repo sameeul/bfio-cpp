@@ -27,7 +27,7 @@ class TSTiffReader:
         pass
     
 
-    def __enter__(self):
+    def __enter__(self) -> 'TSTiffReader':
         """Handle entrance to a context manager.
 
         This code is called when a `with` statement is used. This allows a
@@ -41,14 +41,14 @@ class TSTiffReader:
         """
         return self
 
-    def __del__(self):
+    def __del__(self) -> None:
         """Handle file deletion.
 
         This code runs when an object is deleted..
         """
         self.close()
 
-    def __exit__(self, type_class, value, traceback):
+    def __exit__(self, type_class, value, traceback) -> None:
         """Handle exit from the context manager.
 
         This code runs when exiting a `with` statement.

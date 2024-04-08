@@ -48,15 +48,8 @@ def setUpModule():
     with bfio.BioReader(
         TEST_DIR.joinpath("Plate1-Blue-A-12-Scene-3-P3-F2-03.czi")
     ) as br:
-        np.save(TEST_DIR.joinpath("4d_array.npy"), br[:])
-
-    with bfio.BioWriter("4d_array.ome.tif") as bw:
-        image = np.load(TEST_DIR.joinpath("4d_array.npy"))
-
-        bw.shape = image.shape[:3]
-        bw.dtype = image.dtype
-
-        bw[:] = image[:, :, :, 0]
+        with bfio.BioWriter(TEST_DIR.joinpath("4d_array.ome.tif"), metadata=br.metadata, X=br.X, Y=br.Y, Z=br.Z, C=br.C, T=br.T) as bw:
+            bw[:] = br[:]
 
 def tearDownModule():
     """Remove test images"""
@@ -69,7 +62,6 @@ class TestSimpleRead(unittest.TestCase):
 
     def test_read_ome_tif_full(self):
         """test_read_ome_tif_full - Read tiff using TSTiffReader"""
-        # with TSTiffReader(str(TEST_DIR.joinpath("p01_x01_y01_wx0_wy0_c1.ome.tif"))) as br:
         br = TSTiffReader(str(TEST_DIR.joinpath("p01_x01_y01_wx0_wy0_c1.ome.tif")))
         assert (br._X == 1080)
         assert (br._Y == 1080)
@@ -105,7 +97,7 @@ class TestSimpleRead(unittest.TestCase):
             assert (tmp.shape == (1,1,1,1024,1024))
 
     def test_read_unaligned_tile_boundary(self):
-        """test_read_unaligned_tile_boundary( - Read partial tiff read without alinged tile boundary"""
+        """test_read_unaligned_tile_boundary - Read partial tiff read without alinged tile boundary"""
         # create a 2D numpy array filled with random integer form 0-255
         img_height = 8000
         img_width = 7500
@@ -159,7 +151,38 @@ class TestSimpleRead(unittest.TestCase):
         pass
 
     def test_read_ome_tif_4d(self):
-        pass
+        """test_read_ome_tif_4d - Read 4D data"""
+        br = TSTiffReader(str(TEST_DIR.joinpath("4d_array.ome.tif")))
+        assert (br._X == 672)
+        assert (br._Y == 512)
+        assert (br._Z == 21)
+        assert (br._C == 3)
+        assert (br._T == 1)
+
+        rows = Seq(0,255,1)
+        cols = Seq(0,127,1)
+        layers = Seq(1,1,1)
+        channels = Seq(0,0,1)
+        tsteps = Seq(0,0,1)
+        tmp = br.data(rows, cols, layers, channels, tsteps)
+        print(tmp.sum())
+        assert (tmp.sum() == 7898130)
+
+        rows = Seq(0,255,1)
+        cols = Seq(0,127,1)
+        layers = Seq(2,2,1)
+        channels = Seq(1,1,1)
+        tsteps = Seq(0,0,1)
+        tmp = br.data(rows, cols, layers, channels, tsteps)
+        assert (tmp.sum() == 7828625)
+
+        rows = Seq(0,255,1)
+        cols = Seq(0,127,1)
+        layers = Seq(15,15,1)
+        channels = Seq(2,2,1)
+        tsteps = Seq(0,0,1)
+        tmp = br.data(rows, cols, layers, channels, tsteps)
+        assert (tmp.sum() == 30206173)
 
     def test_read_ome_tif_5d(self):
         pass
