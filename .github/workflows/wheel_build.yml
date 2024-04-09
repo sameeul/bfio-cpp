@@ -52,6 +52,7 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: curl -L http://mirror.centos.org/centos/8-stream/PowerTools/x86_64/os/Packages/nasm-2.15.03-3.el8.x86_64.rpm -o nasm-2.15.03-3.el8.x86_64.rpm &&
                                    yum -y install nasm-2.15.03-3.el8.x86_64.rpm &&
                                    bash ci-utils/install_prereq_linux.sh &&
+                                   yum -y install maven openjdk-8-jre -y &&
                                    mkdir -p /tmp/bfiocpp_bld &&
                                    cp -r local_install /tmp/bfiocpp_bld
           CIBW_BEFORE_ALL_WINDOWS: ci-utils\install_prereq_win.bat &&
