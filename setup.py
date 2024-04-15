@@ -1,7 +1,6 @@
 import os
 import re
 import sys
-import sysconfig
 import versioneer
 import platform
 import subprocess
@@ -58,7 +57,7 @@ class CMakeBuild(build_ext):
             cmake_args += [
                 "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}".format(cfg.upper(), extdir)
             ]
-            if sys.maxsize > 2 ** 32:
+            if sys.maxsize > 2**32:
                 cmake_args += ["-A", "x64"]
             build_args += ["--", "/m"]
         else:
@@ -107,5 +106,7 @@ setup(
     test_suite="tests",
     zip_safe=False,
     python_requires=">=3.8",
-    install_requires=["numpy",],
+    install_requires=[
+        "numpy",
+    ],
 )
