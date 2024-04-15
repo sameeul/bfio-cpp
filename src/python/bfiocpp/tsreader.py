@@ -1,6 +1,7 @@
 import numpy as np
 from typing import Tuple
-from .libbfiocpp import OmeTiffReader, Seq
+from .libbfiocpp import OmeTiffReader
+
 
 class TSTiffReader:
 
@@ -14,20 +15,25 @@ class TSTiffReader:
         self._C: int = self._image_reader.get_channel_count()
         self._T: int = self._image_reader.get_tstep_count()
 
-    def data(self, rows: int, cols: int, layers: int, channels: int, tsteps: int) -> np.ndarray:
+    def data(
+        self, rows: int, cols: int, layers: int, channels: int, tsteps: int
+    ) -> np.ndarray:
         return self._image_reader.get_image_data(rows, cols, layers, channels, tsteps)
 
     def ome_metadata(self) -> str:
         return self._image_reader.get_ome_xml_metadata()
 
-    def send_iter_read_request(self, tile_size: Tuple[int, int], tile_stride: Tuple[int, int]) -> None:
-        self._image_reader.send_iterator_read_requests(tile_size[0], tile_size[1], tile_stride[0], tile_stride[1])
+    def send_iter_read_request(
+        self, tile_size: Tuple[int, int], tile_stride: Tuple[int, int]
+    ) -> None:
+        self._image_reader.send_iterator_read_requests(
+            tile_size[0], tile_size[1], tile_stride[0], tile_stride[1]
+        )
 
     def close(self):
         pass
-    
 
-    def __enter__(self) -> 'TSTiffReader':
+    def __enter__(self) -> "TSTiffReader":
         """Handle entrance to a context manager.
 
         This code is called when a `with` statement is used. This allows a
