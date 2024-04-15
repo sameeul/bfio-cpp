@@ -1,6 +1,6 @@
 import numpy as np
 from typing import Tuple
-from .libbfiocpp import OmeTiffReader
+from .libbfiocpp import OmeTiffReader, Seq  # NOQA: F401
 
 
 class TSTiffReader:
